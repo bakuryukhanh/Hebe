@@ -1,19 +1,42 @@
-import mongoose from "mongoose";
+import { Schema, Model, Document, PaginateModel } from "mongoose";
 import paginate from "mongoose-paginate-v2";
 import database from "../db";
-const productSchema = new mongoose.Schema({
-    name: String,
-    price: Number,
-    imgSrcs: Array,
+const productSchema = new Schema({
+    name: { type: String, required: true, unique: true },
+    price: { type: Number, required: true },
+    imgSrcs: {
+        type: [String],
+        default: [
+            "https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png",
+        ],
+    },
     category: String,
-    collection: String,
+    productCollection: {
+        type: Schema.Types.ObjectId,
+        ref: "productCollection",
+    },
     decription: String,
-    soldStock: Number,
-    isHot: Boolean,
-    isNew: Boolean,
-    discount: Number,
+    isHotP: { type: Boolean, default: false },
+    isNewP: { type: Boolean, default: false },
+    discount: { type: Number, default: 0 },
 });
+export interface IProduct extends Document {
+    name: string;
+    productCollection: Schema.Types.ObjectId;
+    price: number;
+    imgSrcs: string[];
+    isHotP: boolean;
+    isNewP: boolean;
+    discount: number;
+    category: string;
+    decription: string;
+}
+
 productSchema.plugin(paginate);
 productSchema.index({ name: "text" });
-let productModel = database.model("product", productSchema);
+interface ProductModel<T extends Document> extends PaginateModel<T> {}
+let productModel: ProductModel<IProduct> = database.model(
+    "product",
+    productSchema
+);
 export default productModel;

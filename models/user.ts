@@ -19,19 +19,16 @@ const userSchema = new mongoose.Schema({
     address: String,
     phoneNumber: String,
     email: String,
-    wishList: Array,
+    wishList: { type: [mongoose.Schema.Types.ObjectId], ref: "product" },
 });
-export let userModel = database.model("user", userSchema);
-export interface User {
+export interface IUser extends mongoose.Document {
     username: string;
     password: string;
     avatar: string;
-    firstName: string;
-    lastName: string;
-    address: String;
-    phoneNumber: String;
-    email: String;
+    firstname: string;
+    lastname: string;
+    address: string;
+    phoneNumber: string;
+    emale: string;
 }
-export interface UserDocument extends mongoose.Document, User {
-    wishList: Array<mongoose.Types.ObjectId>;
-}
+export let userModel = database.model("user", userSchema);

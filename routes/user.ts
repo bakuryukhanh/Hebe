@@ -1,7 +1,7 @@
 import express from "express";
 import "../auth/passport";
 import passport from "passport";
-import { UserDocument } from "../models/user";
+import { IUser } from "../models/user";
 import { IVerifyOptions } from "passport-local";
 import { userModel } from "../models/user";
 import { to } from "await-to-js";
@@ -16,7 +16,7 @@ Router.post(
     ) => {
         passport.authenticate(
             "local",
-            (err: Error, user: UserDocument, info: IVerifyOptions) => {
+            (err: Error, user: IUser, info: IVerifyOptions) => {
                 if (err) {
                     return res.json({ error: err.message });
                 }

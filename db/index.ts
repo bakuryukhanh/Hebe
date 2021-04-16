@@ -1,7 +1,11 @@
 import mongoose from "mongoose";
 const DB_URL =
     "mongodb+srv://bakuryukhanh:khanhkhanh1@cluster0.6nw5i.mongodb.net/hebe?retryWrites=true&w=majority";
-const option = { useNewUrlParser: true, useUnifiedTopology: true };
+const option = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: true,
+};
 export const connectDB = () => {
     mongoose
         .connect(DB_URL, option)
